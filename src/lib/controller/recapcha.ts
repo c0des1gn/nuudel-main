@@ -1,8 +1,8 @@
-import { t } from '../loc/I18n';
+import { t } from '../loc';
 import axios from 'axios';
 
 const sleep = () =>
-  new Promise(resolve => {
+  new Promise((resolve) => {
     setTimeout(() => {
       resolve('');
     }, 350);
@@ -26,7 +26,7 @@ export const Recapcha = async (req, reply) => {
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
         },
-      },
+      }
     );
     /**
      * The structure of response from the veirfy API is

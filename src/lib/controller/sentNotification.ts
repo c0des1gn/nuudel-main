@@ -1,6 +1,6 @@
 import axios from 'axios';
 import apn from 'apn';
-import { t } from '../loc/I18n';
+import { t } from '../loc';
 
 const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV } = process.env;
 
@@ -13,7 +13,7 @@ export const FirebaseMessaging = (
   icon?: string,
   id?: string,
   data?: object,
-  badge: number = 1,
+  badge: number = 1
 ): Promise<any> => {
   const to =
     keys instanceof Array && keys.length > 1 ? 'registration_ids' : 'to';
@@ -48,7 +48,7 @@ export const FirebaseMessaging = (
         Authorization: 'key=' + key,
         'Content-Type': 'application/json',
       },
-    },
+    }
   );
 };
 
@@ -57,15 +57,15 @@ export const SentNotification = (req, rep) => {
   if (!!headers.token && !!user._id) {
     if (headers.token.length < 100) {
       sendAPN(headers.token, user._id, body.title, body.message)
-        .then(response => {
+        .then((response) => {
           rep.code(200).send({ data: response });
         })
-        .catch(error => {
+        .catch((error) => {
           rep.code(303).send({ data: null, error });
         });
     } else {
       FirebaseMessaging(headers.token, user._id, body.title, body.message)
-        .then(response => {
+        .then((response) => {
           if (response && response.status === 200) {
             rep.code(200).send({ data: response.data });
           } else {
@@ -74,7 +74,7 @@ export const SentNotification = (req, rep) => {
               .send({ data: response.data || null });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           rep.code(303).send({ data: null, error });
         });
     }
@@ -114,7 +114,7 @@ export const sendAPN = (
   icon?: string,
   id?: string,
   data?: object,
-  badge: number = 1,
+  badge: number = 1
 ): Promise<apn.Responses> => {
   let note = new apn.Notification();
 

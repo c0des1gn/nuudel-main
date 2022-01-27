@@ -1,12 +1,19 @@
 {
   "name": "nuudel-main",
-  "version": "1.0.0",
+  "version": "1.0.8",
   "description": "main module for nodejs of nuudel",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/YOUR_GITHUB_USER_NAME/nuudel-main",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/c0des1gn/nuudel-main.git"
+  },
+  "author": "Damii",
   "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/c0des1gn/nuudel-main/issues"
+  },
   "keywords": [],
   "scripts": {
     "build": "run-p build:*",
@@ -43,19 +50,16 @@
   "dependencies": {
     "apn": "^2.2.0",
     "bcryptjs": "^2.4.3",
-    "@typegoose/typegoose": "^8.3.0",
     "axios": "^0.25.0",
     "aws-sdk": "^2.995.0",
     "uuid": "^8.3.1",
     "mongoose": "^5.13.13",
     "mongoose-paginate-v2": "^1.4.2",
-    "i18next": "^21.2.6",
     "mailgen": "^2.0.15",
     "nodemailer": "^6.7.0",
     "oauth": "^0.9.15",
     "fastify": "3.23.1",
     "fastify-plugin": "^3.0.0",
-    "type-graphql": "^1.1.1",
     "sharp": "^0.29.3"
   },
   "devDependencies": {

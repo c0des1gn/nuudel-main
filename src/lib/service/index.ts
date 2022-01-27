@@ -1,6 +1,3 @@
-export * from './core.model';
-export * from './makeContext';
-export * from './makeSchema';
+import makeContext, { IContext } from './makeContext';
+export { makeContext, IContext };
 export * from './object-id.scalar';
-export * from './permission';
-export * from './typegoose-middleware';
