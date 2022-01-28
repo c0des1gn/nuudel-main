@@ -1,11 +1,11 @@
-const setTranslate = (trans: Function) => {
-  translate = trans;
+const setTranslate = (translate: Function) => {
+  reTranslate = translate;
 };
 
-let translate: any = undefined;
+let reTranslate: Function = undefined;
 const t = (key: string, options?: any): string => {
-  if (translate && typeof translate === 'function') {
-    return translate(key, options);
+  if (reTranslate && typeof reTranslate === 'function') {
+    return reTranslate(key, options);
   }
   return key;
 };
