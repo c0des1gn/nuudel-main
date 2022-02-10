@@ -1,5 +1,6 @@
 import { nextPlugin } from './next/NextPlugin';
 import oauth2, { oauthPlugin } from './oauth/oauthPlugin';
+export * from './oauth';
 import fbProfile from './oauth/facebook';
 export * from './oauth/utils';
 
