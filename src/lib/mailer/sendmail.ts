@@ -1,5 +1,5 @@
 import nodemailer from 'nodemailer/lib/nodemailer';
-import AWS from 'aws-sdk';
+import aws from '@aws-sdk/client-ses';
 
 const {
   SMTP_PASSWORD,
@@ -32,18 +32,17 @@ let mailConf: any = {
 };
 
 if (!SMTP_HOST && !!AWS_ACCESS_KEY_ID) {
-  AWS.config.update({
-    accessKeyId: AWS_ACCESS_KEY_ID,
-    secretAccessKey: AWS_SECRET_ACCESS_KEY,
-    region: 'us-east-1',
-  });
-
-  const ses = new AWS.SES({
+  const ses = new aws.SES({
     apiVersion: '2010-12-01',
+    region: 'us-east-1',
+    credentials: {
+      accessKeyId: AWS_ACCESS_KEY_ID,
+      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    },
   });
 
   mailConf = {
-    SES: { ses, aws: AWS },
+    SES: { ses, aws },
     //sendingRate: 1, // max 1 messages/second
   };
 }

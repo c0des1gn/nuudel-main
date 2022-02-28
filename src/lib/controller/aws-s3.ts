@@ -1,5 +1,6 @@
 import fs from 'fs';
-import S3, { PutObjectRequest } from 'aws-sdk/clients/s3';
+import { S3, PutObjectRequest, PutObjectCommand } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { folder } from './upload';
 import { imageResize } from './imageResize';
 
@@ -12,11 +13,12 @@ const {
 } = process.env;
 
 let s3: S3 = new S3({
-  apiVersion: '2010-12-01',
+  endpoint: NEXT_PUBLIC_IMAGE_UPLOAD_URL || 'nyc3.digitaloceanspaces.com', //s3.us-east-1.amazonaws.com
   region: 'us-east-1',
-  endpoint: NEXT_PUBLIC_IMAGE_UPLOAD_URL || 's3.us-east-2.amazonaws.com',
-  accessKeyId: OBJECT_STORAGE_KEY_ID,
-  secretAccessKey: OBJECT_STORAGE_SECRET,
+  credentials: {
+    accessKeyId: OBJECT_STORAGE_KEY_ID,
+    secretAccessKey: OBJECT_STORAGE_SECRET,
+  },
 });
 
 export async function push(
@@ -58,17 +60,13 @@ export async function push(
     };
 
     // Uploading files to the bucket
-    s3.upload(params, function (err, data) {
-      if (err || !data) {
-        return reject('');
-      }
-      /*
-        ETag: '"b6fb337c765aa8a47b5e5b1c0e15aa3b"',
-        key: 'filename.jpeg',
-      */
-      console.log(`File uploaded successfully. ${data.Location}`);
-      resolve(data.Location);
-    });
+    try {
+      const url = await getSignedUrl(s3, new PutObjectCommand(params));
+      console.log(`File uploaded successfully. ${url}`);
+      resolve(url);
+    } catch (err) {
+      return reject('');
+    }
   });
 }
 

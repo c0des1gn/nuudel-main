@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { push, remove } from './digitalocean-s3';
+import { push, remove } from './aws-s3';
 import { v4 as uuid } from 'uuid';
 
 const { NEXT_PUBLIC_OBJECT_STORAGE_BUCKET, NEXT_PUBLIC_IMAGE_UPLOAD_URL } =
