@@ -1,36 +1,61 @@
 import nodemailer from 'nodemailer/lib/nodemailer';
-const { MAIL_PASSWORD, MAIL_ADDRESS = 'noreply@example.mn' } = process.env;
+import AWS from 'aws-sdk';
+
+const {
+  SMTP_PASSWORD,
+  SMTP_USERNAME,
+  SMTP_HOST,
+  SMTP_PORT,
+  AWS_ACCESS_KEY_ID,
+  AWS_SECRET_ACCESS_KEY,
+  MAIL_ADDRESS = 'noreply@example.mn',
+} = process.env;
 
 const POOL: boolean = false;
-const EMAIL: string = MAIL_ADDRESS;
+
+let mailConf: any = {
+  //pool: POOL,
+  //sendmail: true,
+  //maxConnections: 1,
+  //maxMessages: 5,
+  host: SMTP_HOST,
+  port: SMTP_PORT || 465,
+  secure: true,
+  //tls: { ciphers: 'SSLv3' },
+  //service: 'Outlook365',
+  auth: {
+    user: SMTP_USERNAME,
+    pass: SMTP_PASSWORD,
+  },
+  logger: false,
+  debug: false, // include SMTP traffic in the logs
+};
+
+if (!SMTP_HOST && !!AWS_ACCESS_KEY_ID) {
+  AWS.config.update({
+    accessKeyId: AWS_ACCESS_KEY_ID,
+    secretAccessKey: AWS_SECRET_ACCESS_KEY,
+    region: 'us-east-1',
+  });
+
+  const ses = new AWS.SES({
+    apiVersion: '2010-12-01',
+  });
+
+  mailConf = {
+    SES: { ses, aws: AWS },
+    //sendingRate: 1, // max 1 messages/second
+  };
+}
 
 // Create a SMTP transporter object
-const transporter = nodemailer.createTransport(
-  {
-    pool: POOL,
-    //sendmail: true,
-    //maxConnections: 1,
-    //maxMessages: 5,
-    host: 'smtp.office365.com',
-    port: 587,
-    secure: false,
-    tls: { ciphers: 'SSLv3' },
-    service: 'Outlook365',
-    auth: {
-      user: EMAIL,
-      pass: MAIL_PASSWORD,
-    },
-    logger: false,
-    debug: false, // include SMTP traffic in the logs
-  },
-  {
-    // default message fields
+const transporter = nodemailer.createTransport(mailConf, {
+  // default message fields
 
-    // sender info
-    from: `no-reply <${EMAIL}>`,
-    headers: {},
-  },
-);
+  // sender info
+  from: `no-reply <${MAIL_ADDRESS}>`,
+  headers: {},
+});
 
 export const Verify = () => {
   // verify connection configuration
@@ -41,7 +66,7 @@ export const Verify = () => {
   });
 };
 
-export const Send = msg => {
+export const Send = (msg) => {
   try {
     //if (transporter.isIdle()) { }
     transporter.sendMail(msg, (error, info) => {

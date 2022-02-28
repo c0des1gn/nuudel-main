@@ -1,12 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { push, remove } from './aws-s3';
+import { push, remove } from './digitalocean-s3';
 import { v4 as uuid } from 'uuid';
 
-const {
-  NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
-  NEXT_PUBLIC_IMAGE_UPLOAD_URL,
-} = process.env;
+const { NEXT_PUBLIC_OBJECT_STORAGE_BUCKET, NEXT_PUBLIC_IMAGE_UPLOAD_URL } =
+  process.env;
 const host = `${NEXT_PUBLIC_OBJECT_STORAGE_BUCKET}.${NEXT_PUBLIC_IMAGE_UPLOAD_URL}`;
 
 export const folder = './public/uploads/';
@@ -23,14 +21,11 @@ export const Upload = (req, rep) => {
     file: any,
     filename: string,
     encoding: string,
-    mimetype: string,
+    mimetype: string
   ) {
     const extensions = ['png', 'jpeg', 'jpg', 'webp', 'gif']; //'heic'
 
-    const ext = filename
-      .split('.')
-      .pop()
-      .toLowerCase();
+    const ext = filename.split('.').pop().toLowerCase();
 
     let fname =
       filename.replace(/\%|\'|\,|\"|\*|\:|\<|\>|\?|\/|\|/g, '') ||
@@ -50,7 +45,7 @@ export const Upload = (req, rep) => {
 
     file.pipe(fs.createWriteStream(saveTo), { encoding });
 
-    file.on('end', async function() {
+    file.on('end', async function () {
       let uri = '';
       try {
         uri = await push(fname, encoding, mimetype);
@@ -58,13 +53,13 @@ export const Upload = (req, rep) => {
         rep.code(400).send(err);
         return;
       }
-      fs.unlink(saveTo, function(err) {});
+      fs.unlink(saveTo, function (err) {});
       if (!rep.sent) {
         rep.code(200).send({ secure_url: uri });
       }
     });
   }
-  const mp = req.multipart(handler, function(err) {
+  const mp = req.multipart(handler, function (err) {
     if (err) {
       rep.code(400).send(err);
       return;
@@ -76,12 +71,12 @@ export const Upload = (req, rep) => {
     }
   });
 
-  mp.on('field', function(key, value) {
+  mp.on('field', function (key, value) {
     if (key === 'delete' && !!value && value.indexOf(`://${host}/`) > 0) {
       let filename: string = value.split(`://${host}/`)[1];
       remove(filename)
         .then(() => {})
-        .catch(err => {});
+        .catch((err) => {});
     }
   });
 };
@@ -96,7 +91,7 @@ export const Remove = (req, rep) => {
           rep.code(200).send(true);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         rep.code(200).send(false);
       });
   } else {

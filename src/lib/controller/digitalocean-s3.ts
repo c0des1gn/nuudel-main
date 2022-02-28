@@ -12,9 +12,7 @@ const {
 } = process.env;
 
 let s3: S3 = new S3({
-  apiVersion: '2010-12-01',
-  region: 'us-east-1',
-  endpoint: NEXT_PUBLIC_IMAGE_UPLOAD_URL || 's3.us-east-2.amazonaws.com',
+  endpoint: NEXT_PUBLIC_IMAGE_UPLOAD_URL || 'nyc3.digitaloceanspaces.com',
   accessKeyId: OBJECT_STORAGE_KEY_ID,
   secretAccessKey: OBJECT_STORAGE_SECRET,
 });
