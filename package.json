@@ -1,6 +1,6 @@
 {
   "name": "nuudel-main",
-  "version": "1.0.11",
+  "version": "1.0.28",
   "description": "main module for nodejs of nuudel",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -48,10 +48,9 @@
     "node": ">=10"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.53.1",
     "@aws-sdk/client-ses": "^3.53.0",
-    "@aws-sdk/s3-request-presigner": "^3.53.1",
     "apn": "^2.2.0",
+    "aws-sdk": "^2.1083.0",
     "bcryptjs": "^2.4.3",
     "fastify": "3.23.1",
     "fastify-plugin": "^3.0.0",

@@ -1,6 +1,7 @@
 import nodemailer from 'nodemailer/lib/nodemailer';
-import aws from '@aws-sdk/client-ses';
+import * as aws from '@aws-sdk/client-ses';
 
+//https://nodemailer.com/transports/ses/
 const {
   SMTP_PASSWORD,
   SMTP_USERNAME,
@@ -9,6 +10,7 @@ const {
   AWS_ACCESS_KEY_ID,
   AWS_SECRET_ACCESS_KEY,
   MAIL_ADDRESS = 'noreply@example.mn',
+  AWS_DEFAULT_REGION = 'us-east-1',
 } = process.env;
 
 const POOL: boolean = false;
@@ -34,7 +36,7 @@ let mailConf: any = {
 if (!SMTP_HOST && !!AWS_ACCESS_KEY_ID) {
   const ses = new aws.SES({
     apiVersion: '2010-12-01',
-    region: 'us-east-1',
+    region: AWS_DEFAULT_REGION,
     credentials: {
       accessKeyId: AWS_ACCESS_KEY_ID,
       secretAccessKey: AWS_SECRET_ACCESS_KEY,
@@ -70,7 +72,7 @@ export const Send = (msg) => {
     //if (transporter.isIdle()) { }
     transporter.sendMail(msg, (error, info) => {
       if (error) {
-        console.log(error.message);
+        console.log('mailsend:', error.message);
         //return process.exit(1);
       }
       //console.log('Message sent successfully!');
