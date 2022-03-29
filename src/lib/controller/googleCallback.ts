@@ -1,7 +1,7 @@
-import Profile from '../plugin/oauth/facebook';
+import Profile from '../plugin/oauth/google';
 
-export const ProfileCallback = function (request, reply) {
-  const self = this['facebookOAuth2'];
+export const GoogleCallback = function (request, reply) {
+  const self = this['googleOAuth2'];
   self.getAccessTokenFromAuthorizationCodeFlow(
     request,
     (err, accessToken, refreshToken?, params?) => {
@@ -10,7 +10,7 @@ export const ProfileCallback = function (request, reply) {
         return;
       }
       self.oauth2.get(
-        'https://graph.facebook.com/v13.0/me?fields=id,name,last_name,first_name,email,picture,gender,link,short_name', //,birthday
+        'https://www.googleapis.com/oauth2/v3/userinfo',
         accessToken,
         function (err, body, res) {
           reply.send(Profile.callback(err, body, res));

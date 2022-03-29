@@ -10,7 +10,7 @@ import url, { UrlWithParsedQuery } from 'url';
 
 export const defaultState = bcrypt.encodeBase64(
   crypto.pseudoRandomBytes(32),
-  32,
+  32
 );
 
 function defaultGenerateStateFunction() {
@@ -28,7 +28,7 @@ function defaultCheckStateFunction(state, callback) {
 export const oauthPlugin = async (
   fastify: FastifyInstance,
   options: FastifyOAuth2Options,
-  next: (err?: Error) => void,
+  next: (err?: Error) => void
 ) => {
   if (typeof options.name !== 'string') {
     return next(new Error('options.name should be a string'));
@@ -50,7 +50,7 @@ export const oauthPlugin = async (
     typeof options.generateStateFunction !== 'function'
   ) {
     return next(
-      new Error('options.generateStateFunction should be a function'),
+      new Error('options.generateStateFunction should be a function')
     );
   }
   if (
@@ -68,8 +68,8 @@ export const oauthPlugin = async (
   if (!options.generateStateFunction !== !options.checkStateFunction) {
     return next(
       new Error(
-        'options.checkStateFunction and options.generateStateFunction have to be given',
-      ),
+        'options.checkStateFunction and options.generateStateFunction have to be given'
+      )
     );
   }
 
@@ -91,6 +91,7 @@ export const oauthPlugin = async (
       scope: scope,
       state: state,
     });
+
     let parsed: UrlWithParsedQuery = url.parse(oauth2._authorizeUrl, true);
     parsed.query['client_id'] = credentials.client.id;
     delete parsed.search;
@@ -103,24 +104,24 @@ export const oauthPlugin = async (
     reply.redirect(authorizationUri);
   }
 
-  const cbk = function(o, code, callback) {
+  const cbk = function (o, code, callback) {
     return o.oauth2.getOAuthAccessToken(
       code,
       {
         grant_type: 'authorization_code',
         redirect_uri: callbackUri,
       },
-      callback,
+      callback
     );
   };
 
   function getAccessTokenFromAuthorizationCodeFlowCallbacked(
     request,
-    callback,
+    callback
   ) {
     const code = request.query.code;
     const state = request.query.state;
-    checkStateFunction(state, function(err) {
+    checkStateFunction(state, function (err) {
       if (err) {
         callback(err);
         return;
@@ -129,7 +130,7 @@ export const oauthPlugin = async (
     });
   }
   const getAccessTokenFromAuthorizationCodeFlowPromisified = promisify(
-    getAccessTokenFromAuthorizationCodeFlowCallbacked,
+    getAccessTokenFromAuthorizationCodeFlowCallbacked
   );
 
   function getAccessTokenFromAuthorizationCodeFlow(request, callback) {
@@ -142,29 +143,29 @@ export const oauthPlugin = async (
   function getNewAccessTokenUsingRefreshTokenCallbacked(
     refreshToken,
     params,
-    callback,
+    callback
   ) {
     fastify[name].oauth2.getOAuthAccessToken(
       refreshToken,
       { ...{ params }, grant_type: 'refresh_token', redirect_uri: callbackUri },
-      callback,
+      callback
     );
   }
   const getNewAccessTokenUsingRefreshTokenPromisified = promisify(
-    getNewAccessTokenUsingRefreshTokenCallbacked,
+    getNewAccessTokenUsingRefreshTokenCallbacked
   );
 
   function getNewAccessTokenUsingRefreshToken(refreshToken, params, callback) {
     if (!callback) {
       return getNewAccessTokenUsingRefreshTokenPromisified(
         refreshToken,
-        params,
+        params
       );
     }
     getNewAccessTokenUsingRefreshTokenCallbacked(
       refreshToken,
       params,
-      callback,
+      callback
     );
   }
   const oauth2 = new OAuth2(
@@ -173,7 +174,7 @@ export const oauthPlugin = async (
     '',
     credentials.auth.authorizeHost + credentials.auth.authorizePath,
     credentials.auth.tokenHost + credentials.auth.tokenPath,
-    {}, //options.customHeaders,
+    {} //options.customHeaders,
   );
 
   if (startRedirectPath) {
@@ -197,9 +198,9 @@ export const oauthPlugin = async (
 
 oauthPlugin.FACEBOOK_CONFIGURATION = {
   authorizeHost: 'https://facebook.com',
-  authorizePath: '/v8.0/dialog/oauth',
+  authorizePath: '/v13.0/dialog/oauth',
   tokenHost: 'https://graph.facebook.com',
-  tokenPath: '/v8.0/oauth/access_token',
+  tokenPath: '/v13.0/oauth/access_token',
 };
 
 oauthPlugin.GOOGLE_CONFIGURATION = {

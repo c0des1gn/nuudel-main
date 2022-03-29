@@ -4,20 +4,19 @@ import { Credentials } from './Ioauth';
 import { coreProfile } from './coreProfile';
 import { promisify } from 'util';
 
-const { FB_CLIENT_ID, FB_CLIENT_SECRET } = process.env;
+const { GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET } = process.env;
 
 export class Profile extends coreProfile {
   constructor() {
     super();
-    this.provider = 'facebook';
-    this.URL =
-      'https://graph.facebook.com/v13.0/me?fields=id,name,last_name,first_name,email,picture,gender,link,short_name,is_guest_user'; //,birthday
+    this.provider = 'google';
+    this.URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
     this.credentials = {
       client: {
-        id: FB_CLIENT_ID,
-        secret: FB_CLIENT_SECRET,
+        id: GOOGLE_CLIENT_ID,
+        secret: GOOGLE_CLIENT_SECRET,
       },
-      auth: oauthPlugin.FACEBOOK_CONFIGURATION,
+      auth: oauthPlugin.GOOGLE_CONFIGURATION,
     };
 
     this.oauth2 = new OAuth2(
@@ -48,18 +47,17 @@ export class Profile extends coreProfile {
     if ('string' == typeof json) {
       json = JSON.parse(json);
     }
-
     let profile: any = {};
-    profile._fbId = json.id;
-    profile.username = json.short_name;
+    profile._googleId = json.sub;
+    profile.username = json.email?.split('@')[0];
     //profile.displayName = json.name;
-    profile.firstname = json.first_name;
-    profile.lastname = json.last_name;
+    profile.firstname = json.given_name;
+    profile.lastname = json.family_name;
 
     if (json.gender) {
       profile.gender = json.gender;
     }
-    if (json?.birthday) {
+    if (json.birthday) {
       profile.birthday = json.birthday;
     }
 
@@ -69,7 +67,7 @@ export class Profile extends coreProfile {
 
     if (json.email) {
       profile.email = json.email;
-      if (!json.is_guest_user) {
+      if (json.email_verified) {
         profile._verifiedEmail = json.email;
       }
     }
@@ -81,7 +79,7 @@ export class Profile extends coreProfile {
           height: json.picture.data.height,
           width: json.picture.data.width,
         };
-      } else {
+      } else if (typeof json.picture === 'string') {
         profile.avatar = { uri: json.picture };
       }
     }
