@@ -61,10 +61,6 @@ export class Profile extends coreProfile {
       profile.birthday = json.birthday;
     }
 
-    if (json.link) {
-      profile.web = json.link;
-    }
-
     if (json.email) {
       profile.email = json.email;
       if (json.email_verified) {
