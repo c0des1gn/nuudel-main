@@ -48,7 +48,7 @@ export class Profile extends coreProfile {
       json = JSON.parse(json);
     }
     let profile: any = {};
-    profile._googleId = json.sub;
+    profile._googleId = json.sub || json.id;
     profile.username = json.email?.split('@')[0];
     //profile.displayName = json.name;
     profile.firstname = json.given_name;
@@ -59,6 +59,10 @@ export class Profile extends coreProfile {
     }
     if (json.birthday) {
       profile.birthday = json.birthday;
+    }
+
+    if (json.link) {
+      profile.web = json.link;
     }
 
     if (json.email) {
