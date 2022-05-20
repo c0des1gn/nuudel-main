@@ -10,7 +10,7 @@ export class Profile extends coreProfile {
   constructor() {
     super();
     this.provider = 'google';
-    this.URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
+    this.URL = 'https://www.googleapis.com/oauth2/v2/userinfo';
     this.credentials = {
       client: {
         id: GOOGLE_CLIENT_ID,

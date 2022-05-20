@@ -10,7 +10,7 @@ export const GoogleCallback = function (request, reply) {
         return;
       }
       self.oauth2.get(
-        'https://www.googleapis.com/oauth2/v3/userinfo',
+        'https://www.googleapis.com/oauth2/v2/userinfo',
         accessToken,
         function (err, body, res) {
           reply.send(Profile.callback(err, body, res));
