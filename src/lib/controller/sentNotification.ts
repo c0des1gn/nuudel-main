@@ -100,7 +100,7 @@ var options = {
   production: apnProduction,
 };
 
-export let apnProvider: any;
+export var apnProvider: any;
 try {
   apnProvider = new apn.Provider(options);
 } catch {}
