@@ -8,7 +8,7 @@ const sleep = () =>
     }, 350);
   });
 
-export const Recapcha = async (req, reply) => {
+export const Recaptcha = async (req, reply) => {
   const { body, method } = req;
   // Extract the aptcha code from the request body
   const { captcha } = body;
@@ -40,12 +40,12 @@ export const Recapcha = async (req, reply) => {
     if (r.status === 200) {
       // Replace this with the API that will save the data received
       // to your backend
-      await sleep();
+      //await sleep();
       // Return 200 if everything is successful
-      return reply.status(200).send('OK');
+      return reply.status(200).send(r.data);
     }
 
-    return reply.code(422).send({
+    return reply.code(r.status || 422).send({
       message: 'Unproccesable request, Invalid captcha code',
     });
   } catch (error) {
@@ -56,4 +56,4 @@ export const Recapcha = async (req, reply) => {
   }
 };
 
-export default Recapcha;
+export default Recaptcha;

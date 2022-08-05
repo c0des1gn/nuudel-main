@@ -6,7 +6,7 @@ import {
   FirebaseMessaging,
   sendAPN,
 } from './sentNotification';
-import { Recapcha } from './recapcha';
+import { Recaptcha } from './recaptcha';
 
 export {
   ProfileCallback,
@@ -14,7 +14,7 @@ export {
   Upload,
   Remove,
   SentNotification,
-  Recapcha,
+  Recaptcha,
   FirebaseMessaging,
   sendAPN,
 };
