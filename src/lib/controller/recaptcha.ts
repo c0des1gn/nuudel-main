@@ -8,6 +8,18 @@ const sleep = () =>
     }, 350);
   });
 
+export const requestRecaptcha = async (token: string) => {
+  return axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${token}`,
+    JSON.stringify({}),
+    {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+      },
+    }
+  );
+};
+
 export const Recaptcha = async (req, reply) => {
   const { body, method } = req;
   // Extract the aptcha code from the request body
@@ -19,15 +31,7 @@ export const Recaptcha = async (req, reply) => {
 
   try {
     // Ping the google recaptcha verify API to verify the captcha code you received
-    const r = await axios.post(
-      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${captcha}`,
-      JSON.stringify({}),
-      {
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-        },
-      }
-    );
+    const r = await requestRecaptcha(captcha);
     /**
      * The structure of response from the veirfy API is
      * {
