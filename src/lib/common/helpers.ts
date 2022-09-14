@@ -17,14 +17,19 @@ export const decBase64 = (data: string, encoding: string = 'utf8'): string => {
   return Buffer.from(data, 'base64').toString(encoding);
 };
 
-export const getHash = (
+export const checkHash = (
+  hash: string,
   divider: number = 100000,
   length: number = 0
-): string => {
+): boolean => {
   let qid: number = Math.ceil(Date.now() / divider);
-  const hash: string = crypto
-    .createHash('sha256')
-    .update(qid.toString())
-    .digest('hex');
-  return length > 0 ? hash.substring(0, length) : hash;
+  let _hashs: string[] = [qid, qid - 1, qid + 1].map((time) =>
+    crypto
+      .createHash('sha256')
+      .update(time.toString())
+      .digest('hex')
+      .substring(0, 12)
+  );
+  hash = length > 0 ? hash.substring(0, length) : hash;
+  return _hashs.includes(hash);
 };

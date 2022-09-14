@@ -64,7 +64,7 @@ export const Upload = (req, rep) => {
       rep.code(400).send(err);
       return;
     }
-    console.log('upload completed', process.memoryUsage().rss);
+    //console.log('upload completed', process.memoryUsage().rss);
     if (!rep.sent) {
       // ene turuuleed null ilgeegeed bga
       //rep.code(200).send( null );
