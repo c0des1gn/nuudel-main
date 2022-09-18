@@ -3,14 +3,7 @@ import mongoosePaginate from 'mongoose-paginate-v2';
 //import fs from 'fs';
 //import path from 'path';
 
-const {
-  DB_URL,
-  DB_DEBUG,
-  DB_USER,
-  DB_PASS,
-  CA_CERT_PATH = '',
-  CA_CERT,
-} = process.env;
+const { DB_URL, DB_DEBUG, DB_USER, DB_PASS, CA_CERT } = process.env;
 mongoose.plugin(mongoosePaginate);
 
 export default function (onConnect: (dbURL: string) => {}) {
@@ -22,9 +15,9 @@ export default function (onConnect: (dbURL: string) => {}) {
     //sslValidate: false,
   };
 
-  const certPath: string = CA_CERT?.toLowerCase().endsWith('.crt')
+  const certPath: string = CA_CERT?.toLowerCase()?.endsWith('.crt')
     ? CA_CERT
-    : CA_CERT_PATH;
+    : '';
 
   if (!!certPath) {
     options['tls'] = true;

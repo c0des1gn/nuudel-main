@@ -28,7 +28,7 @@ export const checkHash = (
       .createHash('sha256')
       .update(time.toString())
       .digest('hex')
-      .substring(0, 12)
+      .substring(0, length > 0 ? length : undefined)
   );
   hash = length > 0 ? hash.substring(0, length) : hash;
   return _hashs.includes(hash);
