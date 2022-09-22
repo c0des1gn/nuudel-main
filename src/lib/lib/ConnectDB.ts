@@ -11,28 +11,23 @@ export default function (onConnect: (dbURL: string) => {}) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
-    ssl: true,
-    //sslValidate: false,
   };
 
-  const certPath: string = process?.env?.CA_CERT?.toLowerCase()?.endsWith(
-    '.crt'
-  )
-    ? CA_CERT
-    : '';
+  let protocalSrv: boolean = CA_CERT?.toLowerCase()?.endsWith('.crt');
 
-  if (!!certPath) {
+  if (protocalSrv) {
     options['tls'] = true;
-    options['tlsCAFile'] = './keys/' + certPath;
+    options['tlsCAFile'] = './keys/' + CA_CERT;
   } else {
     options['ssl'] = true;
     //options['sslValidate'] = true;
     //options['sslCA'] = [fs.readFileSync(path.join('./keys/', CA_CERT), 'utf8')];
     //options['tlsInsecure'] = true;
   }
+  protocalSrv = protocalSrv || DB_URL?.includes('&tls=true');
 
   mongoose.connect(
-    `mongodb${!certPath ? '' : '+srv'}://` +
+    `mongodb${!protocalSrv ? '' : '+srv'}://` +
       DB_USER +
       ':' +
       DB_PASS +
