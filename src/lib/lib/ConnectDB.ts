@@ -11,6 +11,7 @@ export default function (onConnect: (dbURL: string) => {}) {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false,
+    allowMixed: true,
   };
 
   let protocalSrv: boolean = CA_CERT?.toLowerCase()?.endsWith('.crt');
