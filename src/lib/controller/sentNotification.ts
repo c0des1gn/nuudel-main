@@ -2,7 +2,8 @@ import axios from 'axios';
 import apn from 'apn';
 import { t } from '../loc';
 
-const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV } = process.env;
+const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV, IOS_BUNDLE_ID } =
+  process.env;
 
 // android notifications
 export const FirebaseMessaging = (
@@ -93,7 +94,7 @@ const apnProduction = NODE_ENV === 'production' ? true : false;
 
 var options = {
   token: {
-    key: './keys/AuthKey_XXXXXXXXX.p8',
+    key: `./keys/AuthKey_${KEY_ID}.p8`,
     keyId: KEY_ID,
     teamId: TEAM_ID,
   },
@@ -143,7 +144,7 @@ export const sendAPN = (
     type: 'new_message',
   };
   note.priority = 10;
-  note.topic = 'org.reactjs.native.App';
+  note.topic = IOS_BUNDLE_ID;
 
   return apnProvider.send(note, deviceTokens);
 };
