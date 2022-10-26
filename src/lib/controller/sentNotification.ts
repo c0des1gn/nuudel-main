@@ -2,8 +2,7 @@ import axios from 'axios';
 import apn from 'apn';
 import { t } from '../loc';
 
-const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV, IOS_BUNDLE_ID } =
-  process.env;
+const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV } = process.env;
 
 // android notifications
 export const FirebaseMessaging = (
@@ -14,7 +13,8 @@ export const FirebaseMessaging = (
   icon?: string,
   id?: string,
   data?: object,
-  badge: number = 1
+  badge: number = 1,
+  color: string = '#2777f7'
 ): Promise<any> => {
   const to =
     keys instanceof Array && keys.length > 1 ? 'registration_ids' : 'to';
@@ -22,7 +22,7 @@ export const FirebaseMessaging = (
   let notification = {
     title: title || t('notification title'),
     body: message || t('The notification'), //decodeURIComponent
-    color: '#2777f7',
+    color: color,
     sound: 'default',
     badge: badge,
     //android_channel_id: '',
@@ -144,7 +144,7 @@ export const sendAPN = (
     type: 'new_message',
   };
   note.priority = 10;
-  note.topic = IOS_BUNDLE_ID;
+  note.topic = process.env?.IOS_BUNDLE_ID;
 
   return apnProvider.send(note, deviceTokens);
 };
