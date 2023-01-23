@@ -23,7 +23,7 @@ export const checkHash = (
   length: number = 0
 ): boolean => {
   let qid: number = Math.ceil(Date.now() / divider);
-  let _hashs: string[] = [qid, qid - 1, qid + 1].map((time) =>
+  let _hashs: string[] = [qid, qid - 1, qid + 1, qid - 2, qid + 2].map((time) =>
     crypto
       .createHash('sha256')
       .update(time.toString())
