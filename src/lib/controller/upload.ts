@@ -48,7 +48,7 @@ export const Upload = (req, rep) => {
     file.on('end', async function () {
       let uri = '';
       try {
-        uri = await push(fname, encoding, mimetype);
+        uri = await push(fname, encoding, mimetype, req.headers['toWidth']);
       } catch (err) {
         rep.code(400).send(err);
         return;

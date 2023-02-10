@@ -27,7 +27,8 @@ let s3: S3 = new S3({
 export async function push(
   path: string,
   encoding: string,
-  mimetype: string
+  mimetype: string,
+  toWidth?: number
 ): Promise<string> {
   return new Promise<string>(async (resolve, reject) => {
     let filepath: string = folder + path;
@@ -39,7 +40,7 @@ export async function push(
     let fileContent: Buffer = undefined;
 
     try {
-      fileContent = await imageResize(filepath);
+      fileContent = await imageResize(filepath, toWidth);
     } catch (ex) {
       fileContent = fs.readFileSync(filepath); //fs.createReadStream(path)
     }
