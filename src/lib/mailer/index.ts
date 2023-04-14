@@ -1,3 +1,1 @@
-import { Send } from './sendmail';
-
-export { Send };
+export { Send, VerifySMTP } from './sendmail';

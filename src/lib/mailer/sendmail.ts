@@ -11,7 +11,7 @@ const {
   AWS_SECRET_ACCESS_KEY,
   MAIL_ADDRESS = 'noreply@example.mn',
   AWS_DEFAULT_REGION = 'us-east-1',
-} = process.env;
+} = process?.env;
 
 const POOL: boolean = false;
 
@@ -58,7 +58,7 @@ const transporter = nodemailer.createTransport(mailConf, {
   headers: {},
 });
 
-export const Verify = () => {
+export const VerifySMTP = () => {
   // verify connection configuration
   transporter.verify((error, success) => {
     if (error) {
