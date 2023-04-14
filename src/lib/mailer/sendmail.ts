@@ -7,8 +7,6 @@ const {
   SMTP_USERNAME,
   SMTP_HOST,
   SMTP_PORT,
-  AWS_ACCESS_KEY_ID,
-  AWS_SECRET_ACCESS_KEY,
   MAIL_ADDRESS = 'noreply@example.mn',
   AWS_DEFAULT_REGION = 'us-east-1',
 } = process?.env;
@@ -33,19 +31,19 @@ let mailConf: any = {
   debug: false, // include SMTP traffic in the logs
 };
 
-if (!SMTP_HOST && !!AWS_ACCESS_KEY_ID) {
+if (!SMTP_HOST && !!SMTP_USERNAME) {
   const ses = new aws.SES({
     apiVersion: '2010-12-01',
     region: AWS_DEFAULT_REGION,
     credentials: {
-      accessKeyId: AWS_ACCESS_KEY_ID,
-      secretAccessKey: AWS_SECRET_ACCESS_KEY,
+      accessKeyId: SMTP_USERNAME,
+      secretAccessKey: SMTP_PASSWORD,
     },
   });
 
   mailConf = {
     SES: { ses, aws },
-    //sendingRate: 1, // max 1 messages/second
+    //sendingRate: 14, // max 14 messages/second
   };
 }
 
