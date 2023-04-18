@@ -83,7 +83,7 @@ export const Upload = (req, rep) => {
 
 export const Remove = (req, rep) => {
   const { body } = req;
-  if (!!body.delete && body.delete.indexOf(`://${host}/`) > 0) {
+  if (!!body?.delete && body.delete.indexOf(`://${host}/`) > 0) {
     let filename: string = body.delete.split(`://${host}/`)[1];
     remove(filename)
       .then(() => {
