@@ -65,7 +65,11 @@ export async function push(
       Body: fileContent,
       ContentEncoding: encoding,
       ContentType: mimetype,
-      ACL: 'public-read',
+      ACL: !NEXT_PUBLIC_IMAGE_UPLOAD_URL?.includes(
+        '.nyc3.digitaloceanspaces.com'
+      )
+        ? undefined
+        : 'public-read',
     };
 
     // Uploading files to the bucket
@@ -115,5 +119,15 @@ function replaceSpace(name, reverse: boolean = false) {
   if (!NEXT_PUBLIC_IMAGE_UPLOAD_URL?.includes('.amazonaws.com')) {
     return name;
   }
-  return !reverse ? name.replace(/%20/g, '+') : name.replace(/+/g, '%20');
+  name = !reverse ? name.replace(/%20/g, '+') : name.replace(/+/g, '%20');
+  if (
+    !reverse &&
+    NEXT_PUBLIC_IMAGE_UPLOAD_URL?.includes('.nyc3.digitaloceanspaces.com')
+  ) {
+    name = name.replace(
+      '.nyc3.digitaloceanspaces.com',
+      '.nyc3.cdn.digitaloceanspaces.com'
+    );
+  }
+  return name;
 }
