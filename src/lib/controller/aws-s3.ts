@@ -4,6 +4,7 @@ import {
   PutObjectCommand,
   PutObjectCommandInput,
   DeleteObjectCommand,
+  GetObjectAttributesCommand,
   //S3Client,
   S3,
 } from '@aws-sdk/client-s3';
@@ -94,6 +95,22 @@ export async function push(
   });
 }
 
+export async function getAttributes(filename: string) {
+  const params = new GetObjectAttributesCommand({
+    Bucket: NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
+    Key: filename,
+    ObjectAttributes: undefined,
+  });
+
+  try {
+    const data = await s3.send(params);
+    console.log('Success. Get Object Attributes.', data);
+    return data;
+  } catch (err) {
+    console.log('Error', err);
+  }
+}
+
 export async function remove(filename: string) {
   if (!filename) {
     return;
@@ -119,7 +136,7 @@ function replaceSpace(name, reverse: boolean = false) {
   if (!NEXT_PUBLIC_IMAGE_UPLOAD_URL?.includes('.amazonaws.com')) {
     return name;
   }
-  name = !reverse ? name.replace(/%20/g, '+') : name.replace(/+/g, '%20');
+  name = !reverse ? name.replace(/%20/g, '+') : name.replace(/\+/g, '%20');
   if (
     !reverse &&
     NEXT_PUBLIC_IMAGE_UPLOAD_URL?.includes('.nyc3.digitaloceanspaces.com')
