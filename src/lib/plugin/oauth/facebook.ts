@@ -4,7 +4,7 @@ import { Credentials } from './Ioauth';
 import { coreProfile } from './coreProfile';
 import { promisify } from 'util';
 
-const { FB_CLIENT_ID, FB_CLIENT_SECRET } = process.env;
+const { FB_CLIENT_ID, FB_CLIENT_SECRET } = process?.env;
 
 export class Profile extends coreProfile {
   constructor() {

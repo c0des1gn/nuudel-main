@@ -2,7 +2,7 @@ import axios from 'axios';
 import apn from 'apn';
 import { t } from '../loc';
 
-const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV } = process.env;
+const { FIREBASE_SERVER_KEY, TEAM_ID, KEY_ID, NODE_ENV } = process?.env;
 
 // android notifications
 export const FirebaseMessaging = (

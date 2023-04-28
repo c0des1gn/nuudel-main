@@ -41,7 +41,7 @@ const makeContext = (app: App, { request, reply }): IContext => {
   // Requiring auth header for introspection queries
   if (
     !deviceId &&
-    process.env.NODE_ENV === 'production' &&
+    process?.env?.NODE_ENV === 'production' &&
     !!body &&
     body.hasOwnProperty('query') &&
     isIntrospectionQuery(body.query)
