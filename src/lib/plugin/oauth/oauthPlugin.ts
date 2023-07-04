@@ -189,11 +189,10 @@ export const oauthPlugin = async (
       generateAuthorizationUri,
     });
   } catch (e) {
-    next(e);
-    return;
+    return next(e);
   }
 
-  next();
+  return next();
 };
 
 oauthPlugin.FACEBOOK_CONFIGURATION = {
