@@ -192,7 +192,7 @@ export const oauthPlugin = async (
     return next(e);
   }
 
-  return next();
+  next();
 };
 
 oauthPlugin.FACEBOOK_CONFIGURATION = {
