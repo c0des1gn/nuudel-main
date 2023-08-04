@@ -43,3 +43,21 @@ export const checkHash = (
   hash = length > 0 ? hash.substring(0, length) : hash;
   return _hashs.includes(hash);
 };
+
+export function sanitize_slug(slug: string) {
+  slug = (slug || '').trim().toLowerCase();
+  slug = slug
+    .replace(/\%/g, '')
+    //.replace(/%c2%a0|%e2%80%93|%e2%80%94/g, '-')
+    .replace(/&nbsp;|&#160;|&ndash;|&#8211;|&mdash;|&#8212;/g, '-')
+    .replace(/\//g, '-')
+    .replace(/&.+?;/g, '')
+    .replace(/\./g, '-')
+    .replace(/[^%a-z0-9\s_-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/\-+/g, '-');
+  if (slug.length > 250) {
+    slug = slug.substring(0, 250);
+  }
+  return slug;
+}
