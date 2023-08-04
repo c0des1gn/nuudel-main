@@ -54,9 +54,9 @@ export const Upload = (req, rep) => {
         return;
       }
       fs.unlink(saveTo, function (err) {});
-      if (!rep.sent) {
-        rep.code(200).send({ secure_url: uri });
-      }
+      //if (!!rep?.sent) {
+      rep.code(200).send({ secure_url: uri });
+      //}
     });
   }
   const mp = req.multipart(handler, function (err) {
