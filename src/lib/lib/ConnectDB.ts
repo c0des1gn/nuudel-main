@@ -24,7 +24,7 @@ export default function (onConnect: (dbURL: string) => {}) {
     //options['sslCA'] = [fs.readFileSync(path.join('./keys/', CA_CERT), 'utf8')];
     //options['tlsInsecure'] = true;
   }
-  protocalSrv = protocalSrv || DB_URL?.includes('&tls=true');
+  protocalSrv = protocalSrv || DB_URL?.includes('&readPreference=');
 
   mongoose.connect(
     `mongodb${!protocalSrv ? '' : '+srv'}://` +
