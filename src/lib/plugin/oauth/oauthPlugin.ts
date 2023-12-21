@@ -1,10 +1,9 @@
-import { FastifyInstance } from 'fastify';
+import fastify2,{ FastifyInstance } from 'fastify';
 import { FastifyOAuth2Options } from './Ioauth';
 import { OAuth2 } from 'oauth';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import fp from 'fastify-plugin';
-
 import { promisify } from 'util';
 import url, { UrlWithParsedQuery } from 'url';
 
@@ -25,8 +24,8 @@ function defaultCheckStateFunction(state, callback) {
   callback(new Error('Invalid state'));
 }
 
-export const oauthPlugin = async (
-  fastify: FastifyInstance,
+export const oauthPlugin = (
+  fastify: FastifyInstance | any,
   options: FastifyOAuth2Options,
   next: (err?: Error) => void
 ) => {
@@ -251,4 +250,4 @@ oauthPlugin.SPOTIFY_CONFIGURATION = {
   tokenPath: '/api/token',
 }; // */
 
-export default fp(oauthPlugin);
+export default fp(oauthPlugin, { fastify: '4.x' });

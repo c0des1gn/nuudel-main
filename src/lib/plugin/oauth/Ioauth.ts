@@ -1,4 +1,4 @@
-import { FastifyRequest, FastifyError } from 'fastify';
+import { FastifyRequest } from 'fastify';
 
 export interface OAuth2Token {
   token_type: 'bearer';
@@ -44,7 +44,7 @@ export interface Credentials {
   auth: ProviderConfiguration;
 }
 
-export interface FastifyOAuth2Options {
+export interface FastifyOAuth2Options { 
   name: string;
   scope: string[];
   credentials: Credentials;

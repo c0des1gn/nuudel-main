@@ -1,3 +1,4 @@
+/*
 import Next from 'next';
 import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
 
@@ -132,9 +133,9 @@ export const nextPlugin = async (
 
     reply.sent = true;
   }
-};
+}; // */
 
-/*
+//*
 import Next from 'next';
 
 export const nextPlugin = async (fastify, options: any = {}, next) => {
@@ -268,4 +269,4 @@ export const nextPlugin = async (fastify, options: any = {}, next) => {
     reply.sent = true;
   }
 };
-*/
+// */

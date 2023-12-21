@@ -4,7 +4,6 @@ import {
   FastifyRequest,
   FastifyReply,
   FastifyInstance,
-  FastifyLoggerInstance,
 } from 'fastify';
 import { OperationDefinitionNode, parse } from 'graphql';
 
