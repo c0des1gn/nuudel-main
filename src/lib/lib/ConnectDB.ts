@@ -8,9 +8,8 @@ mongoose.plugin(mongoosePaginate);
 
 export default function (onConnect: (dbURL: string) => {}) {
   let options: any = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
   };
 
   let protocalSrv: boolean = CA_CERT?.toLowerCase()?.endsWith('.crt');
@@ -36,14 +35,14 @@ export default function (onConnect: (dbURL: string) => {}) {
       DB_PASS +
       '@' +
       DB_URL,
-    options
+    options,
   );
   if (DB_DEBUG) {
     mongoose.set('debug', true);
   }
   mongoose.connection.on(
     'error',
-    console.error.bind(console, 'connection error:')
+    console.error.bind(console, 'connection error:'),
   );
   mongoose.connection.once('open', () => {
     onConnect(DB_URL);

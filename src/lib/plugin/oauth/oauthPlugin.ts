@@ -1,4 +1,4 @@
-import fastify2,{ FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import { FastifyOAuth2Options } from './Ioauth';
 import { OAuth2 } from 'oauth';
 import bcrypt from 'bcryptjs';

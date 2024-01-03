@@ -1,9 +1,9 @@
 import { Server, IncomingMessage, ServerResponse } from 'http';
-//import { Http2Server, Http2ServerRequest, Http2ServerResponse } from 'http2';
 import {
   FastifyRequest,
   FastifyReply,
   FastifyInstance,
+  FastifyBaseLogger,
 } from 'fastify';
 import { OperationDefinitionNode, parse } from 'graphql';
 
@@ -16,7 +16,12 @@ interface IUser {
   status: string;
 }
 
-type App = FastifyInstance<Server, IncomingMessage, ServerResponse>;
+type App = FastifyInstance<
+  Server,
+  IncomingMessage,
+  ServerResponse,
+  FastifyBaseLogger
+>;
 
 export interface IContext {
   req: FastifyRequest;
@@ -60,7 +65,7 @@ const makeContext = (app: App, { request, reply }): IContext => {
 const isIntrospectionQuery = (arg: string) => {
   const query = parse(arg);
   const opDefs = query.definitions.filter(
-    (d) => d.kind == 'OperationDefinition'
+    (d) => d.kind == 'OperationDefinition',
   ) as OperationDefinitionNode[];
   // Must only have one definition
   if (opDefs.length > 1) {

@@ -137,9 +137,17 @@ export const nextPlugin = async (
 
 //*
 import Next from 'next';
+import type {
+  FastifyInstance,
+  FastifyPluginOptions,
+  FastifyError,
+} from 'fastify';
 
-export const nextPlugin = async (fastify, options: any = {}, next) => {
-
+export const nextPlugin = async (
+  fastify: FastifyInstance | any,
+  options: FastifyPluginOptions = {},
+  next: (error?: FastifyError) => void
+) => {
   // if ('underPressure' in options) {
   //   if (options.underPressure) {
   //     const opts =
@@ -148,7 +156,6 @@ export const nextPlugin = async (fastify, options: any = {}, next) => {
   //   }
   //   delete options.underPressure;
   // }
-
 
   let noServeAssets = false;
 
