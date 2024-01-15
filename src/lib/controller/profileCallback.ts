@@ -10,13 +10,13 @@ export const ProfileCallback = function (request, reply) {
         return;
       }
       self.oauth2.get(
-        'https://graph.facebook.com/v12.0/me?fields=id,name,last_name,first_name,email,picture,gender,link,short_name', //,birthday
+        'https://graph.facebook.com/v13.0/me?fields=id,name,last_name,first_name,email,picture,gender,link,short_name', //,birthday
         accessToken,
         function (err, body, res) {
           reply.send(Profile.callback(err, body, res));
           return;
-        }
+        },
       );
-    }
+    },
   );
 };
