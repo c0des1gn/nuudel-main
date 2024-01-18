@@ -18,7 +18,9 @@ export default function (onConnect: (dbURL: string) => {}) {
     options['tls'] = true;
     options['tlsCAFile'] = './keys/' + CA_CERT;
   } else {
-    options['ssl'] = !DB_URL?.startsWith('localhost');
+    options['ssl'] = !(
+      DB_URL?.startsWith('localhost') || DB_URL?.startsWith('127.0.0.1')
+    );
     //options['sslValidate'] = true;
     //options['sslCA'] = [fs.readFileSync(path.join('./keys/', CA_CERT), 'utf8')];
     //options['tlsInsecure'] = true;
