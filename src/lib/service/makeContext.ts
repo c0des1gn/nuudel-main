@@ -3,7 +3,7 @@ import {
   FastifyRequest,
   FastifyReply,
   FastifyInstance,
-  //FastifyBaseLogger,
+  FastifyBaseLogger,
 } from 'fastify';
 import { OperationDefinitionNode, parse } from 'graphql';
 
@@ -19,8 +19,8 @@ interface IUser {
 type App = FastifyInstance<
   Server,
   IncomingMessage,
-  ServerResponse
-  //FastifyBaseLogger
+  ServerResponse,
+  FastifyBaseLogger
 >;
 
 export interface IContext {

@@ -8,9 +8,8 @@ mongoose.plugin(mongoosePaginate);
 
 export default function (onConnect: (dbURL: string) => {}) {
   let options: any = {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false,
+    //useNewUrlParser: true,
+    //useUnifiedTopology: true,
   };
 
   let protocalSrv: boolean = CA_CERT?.toLowerCase()?.endsWith('.crt');

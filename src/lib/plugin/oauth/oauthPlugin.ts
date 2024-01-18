@@ -1,17 +1,17 @@
-import { FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import { FastifyOAuth2Options } from './Ioauth';
 import { OAuth2 } from 'oauth';
 import bcrypt from 'bcryptjs';
 import crypto from 'crypto';
 import fp from 'fastify-plugin';
-
 import { promisify } from 'util';
 import url, { UrlWithParsedQuery } from 'url';
 
 export const defaultState = bcrypt.encodeBase64(
   crypto.pseudoRandomBytes(32),
-  32
+  32,
 );
+//crypto.pseudoRandomBytes(32).toString('base64');
 
 function defaultGenerateStateFunction() {
   return defaultState;
@@ -25,10 +25,10 @@ function defaultCheckStateFunction(state, callback) {
   callback(new Error('Invalid state'));
 }
 
-export const oauthPlugin = async (
-  fastify: FastifyInstance,
+export const oauthPlugin = (
+  fastify: FastifyInstance | any,
   options: FastifyOAuth2Options,
-  next: (err?: Error) => void
+  next: (err?: Error) => void,
 ) => {
   if (typeof options.name !== 'string') {
     return next(new Error('options.name should be a string'));
@@ -50,7 +50,7 @@ export const oauthPlugin = async (
     typeof options.generateStateFunction !== 'function'
   ) {
     return next(
-      new Error('options.generateStateFunction should be a function')
+      new Error('options.generateStateFunction should be a function'),
     );
   }
   if (
@@ -68,8 +68,8 @@ export const oauthPlugin = async (
   if (!options.generateStateFunction !== !options.checkStateFunction) {
     return next(
       new Error(
-        'options.checkStateFunction and options.generateStateFunction have to be given'
-      )
+        'options.checkStateFunction and options.generateStateFunction have to be given',
+      ),
     );
   }
 
@@ -111,13 +111,13 @@ export const oauthPlugin = async (
         grant_type: 'authorization_code',
         redirect_uri: callbackUri,
       },
-      callback
+      callback,
     );
   };
 
   function getAccessTokenFromAuthorizationCodeFlowCallbacked(
     request,
-    callback
+    callback,
   ) {
     const code = request.query.code;
     const state = request.query.state;
@@ -130,7 +130,7 @@ export const oauthPlugin = async (
     });
   }
   const getAccessTokenFromAuthorizationCodeFlowPromisified = promisify(
-    getAccessTokenFromAuthorizationCodeFlowCallbacked
+    getAccessTokenFromAuthorizationCodeFlowCallbacked,
   );
 
   function getAccessTokenFromAuthorizationCodeFlow(request, callback) {
@@ -143,29 +143,29 @@ export const oauthPlugin = async (
   function getNewAccessTokenUsingRefreshTokenCallbacked(
     refreshToken,
     params,
-    callback
+    callback,
   ) {
     fastify[name].oauth2.getOAuthAccessToken(
       refreshToken,
       { ...{ params }, grant_type: 'refresh_token', redirect_uri: callbackUri },
-      callback
+      callback,
     );
   }
   const getNewAccessTokenUsingRefreshTokenPromisified = promisify(
-    getNewAccessTokenUsingRefreshTokenCallbacked
+    getNewAccessTokenUsingRefreshTokenCallbacked,
   );
 
   function getNewAccessTokenUsingRefreshToken(refreshToken, params, callback) {
     if (!callback) {
       return getNewAccessTokenUsingRefreshTokenPromisified(
         refreshToken,
-        params
+        params,
       );
     }
     getNewAccessTokenUsingRefreshTokenCallbacked(
       refreshToken,
       params,
-      callback
+      callback,
     );
   }
   const oauth2 = new OAuth2(
@@ -174,7 +174,7 @@ export const oauthPlugin = async (
     '',
     credentials.auth.authorizeHost + credentials.auth.authorizePath,
     credentials.auth.tokenHost + credentials.auth.tokenPath,
-    {} //options.customHeaders,
+    {}, //options.customHeaders,
   );
 
   if (startRedirectPath) {
@@ -197,9 +197,9 @@ export const oauthPlugin = async (
 
 oauthPlugin.FACEBOOK_CONFIGURATION = {
   authorizeHost: 'https://facebook.com',
-  authorizePath: '/v12.0/dialog/oauth',
+  authorizePath: '/v13.0/dialog/oauth',
   tokenHost: 'https://graph.facebook.com',
-  tokenPath: '/v12.0/oauth/access_token',
+  tokenPath: '/v13.0/oauth/access_token',
 };
 
 oauthPlugin.GOOGLE_CONFIGURATION = {
@@ -251,4 +251,4 @@ oauthPlugin.SPOTIFY_CONFIGURATION = {
   tokenPath: '/api/token',
 }; // */
 
-export default fp(oauthPlugin);
+export default fp(oauthPlugin, { fastify: '4.x' });
