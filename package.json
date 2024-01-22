@@ -1,6 +1,6 @@
 {
   "name": "nuudel-main",
-  "version": "1.0.118",
+  "version": "1.0.119",
   "description": "main module for nodejs of nuudel",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -45,7 +45,7 @@
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
   },
   "engines": {
-    "node": ">=18"
+    "node": ">=16"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.477.0",
