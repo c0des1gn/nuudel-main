@@ -7,7 +7,7 @@ import {
 } from 'fastify';
 import { OperationDefinitionNode, parse } from 'graphql';
 
-interface IUser {
+export interface IUser {
   _id?: string;
   username: string;
   email?: string;
@@ -65,7 +65,7 @@ const makeContext = (app: App, { request, reply }): IContext => {
 const isIntrospectionQuery = (arg: string) => {
   const query = parse(arg);
   const opDefs = query.definitions.filter(
-    (d) => d.kind == 'OperationDefinition',
+    (d) => d.kind == 'OperationDefinition'
   ) as OperationDefinitionNode[];
   // Must only have one definition
   if (opDefs.length > 1) {

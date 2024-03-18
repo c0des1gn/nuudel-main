@@ -1,4 +1,4 @@
-import makeContext, { IContext } from './makeContext';
+import makeContext, { IContext, IUser } from './makeContext';
 export { makeContext };
-export type { IContext };
+export type { IContext, IUser };
 export * from './object-id.scalar';
