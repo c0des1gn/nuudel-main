@@ -9,7 +9,7 @@ import url, { UrlWithParsedQuery } from 'url';
 
 export const defaultState = bcrypt.encodeBase64(
   crypto.pseudoRandomBytes(32),
-  32,
+  32
 );
 //crypto.pseudoRandomBytes(32).toString('base64');
 
@@ -28,7 +28,7 @@ function defaultCheckStateFunction(state, callback) {
 export const oauthPlugin = (
   fastify: FastifyInstance | any,
   options: FastifyOAuth2Options,
-  next: (err?: Error) => void,
+  next: (err?: Error) => void
 ) => {
   if (typeof options.name !== 'string') {
     return next(new Error('options.name should be a string'));
@@ -50,7 +50,7 @@ export const oauthPlugin = (
     typeof options.generateStateFunction !== 'function'
   ) {
     return next(
-      new Error('options.generateStateFunction should be a function'),
+      new Error('options.generateStateFunction should be a function')
     );
   }
   if (
@@ -68,8 +68,8 @@ export const oauthPlugin = (
   if (!options.generateStateFunction !== !options.checkStateFunction) {
     return next(
       new Error(
-        'options.checkStateFunction and options.generateStateFunction have to be given',
-      ),
+        'options.checkStateFunction and options.generateStateFunction have to be given'
+      )
     );
   }
 
@@ -111,13 +111,13 @@ export const oauthPlugin = (
         grant_type: 'authorization_code',
         redirect_uri: callbackUri,
       },
-      callback,
+      callback
     );
   };
 
   function getAccessTokenFromAuthorizationCodeFlowCallbacked(
     request,
-    callback,
+    callback
   ) {
     const code = request.query.code;
     const state = request.query.state;
@@ -130,7 +130,7 @@ export const oauthPlugin = (
     });
   }
   const getAccessTokenFromAuthorizationCodeFlowPromisified = promisify(
-    getAccessTokenFromAuthorizationCodeFlowCallbacked,
+    getAccessTokenFromAuthorizationCodeFlowCallbacked
   );
 
   function getAccessTokenFromAuthorizationCodeFlow(request, callback) {
@@ -143,29 +143,29 @@ export const oauthPlugin = (
   function getNewAccessTokenUsingRefreshTokenCallbacked(
     refreshToken,
     params,
-    callback,
+    callback
   ) {
     fastify[name].oauth2.getOAuthAccessToken(
       refreshToken,
       { ...{ params }, grant_type: 'refresh_token', redirect_uri: callbackUri },
-      callback,
+      callback
     );
   }
   const getNewAccessTokenUsingRefreshTokenPromisified = promisify(
-    getNewAccessTokenUsingRefreshTokenCallbacked,
+    getNewAccessTokenUsingRefreshTokenCallbacked
   );
 
   function getNewAccessTokenUsingRefreshToken(refreshToken, params, callback) {
     if (!callback) {
       return getNewAccessTokenUsingRefreshTokenPromisified(
         refreshToken,
-        params,
+        params
       );
     }
     getNewAccessTokenUsingRefreshTokenCallbacked(
       refreshToken,
       params,
-      callback,
+      callback
     );
   }
   const oauth2 = new OAuth2(
@@ -174,7 +174,7 @@ export const oauthPlugin = (
     '',
     credentials.auth.authorizeHost + credentials.auth.authorizePath,
     credentials.auth.tokenHost + credentials.auth.tokenPath,
-    {}, //options.customHeaders,
+    {} //options.customHeaders,
   );
 
   if (startRedirectPath) {
@@ -197,9 +197,9 @@ export const oauthPlugin = (
 
 oauthPlugin.FACEBOOK_CONFIGURATION = {
   authorizeHost: 'https://facebook.com',
-  authorizePath: '/v13.0/dialog/oauth',
+  authorizePath: '/v14.0/dialog/oauth',
   tokenHost: 'https://graph.facebook.com',
-  tokenPath: '/v13.0/oauth/access_token',
+  tokenPath: '/v14.0/oauth/access_token',
 };
 
 oauthPlugin.GOOGLE_CONFIGURATION = {

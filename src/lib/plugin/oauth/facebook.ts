@@ -11,7 +11,7 @@ export class Profile extends coreProfile {
     super();
     this.provider = 'facebook';
     this.URL =
-      'https://graph.facebook.com/v13.0/me?fields=id,name,last_name,first_name,email,picture,gender,link,short_name,is_guest_user'; //,birthday
+      'https://graph.facebook.com/v14.0/me?fields=id,name,last_name,first_name,email,picture,gender,link,short_name,is_guest_user'; //,birthday
     this.credentials = {
       client: {
         id: FB_CLIENT_ID,
@@ -25,7 +25,7 @@ export class Profile extends coreProfile {
       this.credentials.client.secret,
       '',
       this.credentials.auth.authorizeHost + this.credentials.auth.authorizePath,
-      this.credentials.auth.tokenHost + this.credentials.auth.tokenPath,
+      this.credentials.auth.tokenHost + this.credentials.auth.tokenPath
     );
   }
 
