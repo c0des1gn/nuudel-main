@@ -1,6 +1,6 @@
 {
   "name": "nuudel-main",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "description": "main module for nodejs of nuudel",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -52,16 +52,16 @@
     "@aws-sdk/client-ses": "^3.477.0",
     "apn": "^2.2.0",
     "bcryptjs": "^2.4.3",
-    "fastify": "^4.25.1",
+    "fastify": "^4.29.1",
     "fastify-plugin": "^4.5.1",
-    "@fastify/under-pressure": "^8.3.0",
+    "@fastify/under-pressure": "^8.5.2",
     "glob": "^10.3.10",
     "graphql-scalars": "^1.22.4",
     "mongoose": "^8.0.3",
     "mongoose-paginate-v2": "^1.7.4",
     "nodemailer": "^6.9.7",
     "oauth": "^0.10.0",
-    "sharp": "0.32.6",
+    "sharp": "0.34.5",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
@@ -94,7 +94,7 @@
     "standard-version": "^9.5.0",
     "ts-node": "^10.9.2",
     "typedoc": "^0.28.17",
-    "typescript": "5.6.2"
+    "typescript": "5.5.4"
   },
   "peerDependencies": {
     "axios": "^1.13.6",
