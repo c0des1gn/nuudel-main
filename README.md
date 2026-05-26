@@ -7,7 +7,7 @@ main module for nodejs of nuudel
 git remote show origin
 git branch -a
 git checkout main
-git checkout fastify_v3
+git checkout fastify_v4
 git remote set-head origin main
 
 yarn

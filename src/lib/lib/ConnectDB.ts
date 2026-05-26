@@ -18,16 +18,16 @@ export default function (onConnect: (dbURL: string) => {}) {
     options['tls'] = true;
     options['tlsCAFile'] = './keys/' + CA_CERT;
   } else {
-    options['ssl'] = !(
-      DB_URL?.startsWith('localhost') || DB_URL?.startsWith('127.0.0.1')
-    );
+    if(!(DB_URL?.includes('?ssl=') || DB_URL?.includes('&ssl='))) {
+      options['ssl'] = true;
+    }
     //options['sslValidate'] = true;
     //options['sslCA'] = [fs.readFileSync(path.join('./keys/', CA_CERT), 'utf8')];
     //options['tlsInsecure'] = true;
   }
   protocalSrv =
     protocalSrv ||
-    DB_URL?.includes('&readPreference=') ||
+    DB_URL?.includes('ssl=true') ||
     DB_URL?.includes('&tls=true');
 
   mongoose.connect(

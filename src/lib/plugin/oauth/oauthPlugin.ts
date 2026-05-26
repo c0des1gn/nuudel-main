@@ -251,4 +251,4 @@ oauthPlugin.SPOTIFY_CONFIGURATION = {
   tokenPath: '/api/token',
 }; // */
 
-export default fp(oauthPlugin, { fastify: '4.x' });
+export default fp(oauthPlugin, { fastify: '5.x' });
