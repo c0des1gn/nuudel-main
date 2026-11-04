@@ -1,6 +1,6 @@
 {
   "name": "nuudel-main",
-  "version": "1.2.14",
+  "version": "1.2.13",
   "description": "main module for nodejs of nuudel",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
