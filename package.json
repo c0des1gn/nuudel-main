@@ -1,6 +1,6 @@
 {
   "name": "nuudel-main",
-  "version": "1.2.8",
+  "version": "1.2.11",
   "description": "main module for nodejs of nuudel",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -45,16 +45,16 @@
     "prepare-release": "run-s reset-hard test cov:check doc:html version doc:publish"
   },
   "engines": {
-     "node": ">=20.9.0"
+    "node": ">=20.9.0"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.477.0",
     "@aws-sdk/client-ses": "^3.477.0",
+    "@fastify/under-pressure": "^9.0.3",
     "apn": "^2.2.0",
     "bcryptjs": "^2.4.3",
-    "fastify": "^5.8.2",
+    "fastify": "^5.8.5",
     "fastify-plugin": "^5.1.0",
-    "@fastify/under-pressure": "^9.0.3",
     "glob": "^10.3.10",
     "graphql-scalars": "^1.25.0",
     "mongoose": "^8.0.3",
