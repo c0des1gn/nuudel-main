@@ -178,11 +178,11 @@ export const Upload = async (req: any, rep: any) => {
       );
     }
 
-    const uploadPreset = req.body?.upload_preset;
+    const uploadPreset = part.fields?.upload_preset?.value;
 
     // Return response compatible with React Upload
     return rep.code(200).send({
-      secure_url: !uploadPreset ? uri : uri?.replace(uploadPreset + ".s3.amazonaws.com/", uploadPreset + "/"),
+      secure_url: !uploadPreset? uri : uri?.replace(uploadPreset + ".s3.amazonaws.com/", uploadPreset + "/"),
     });
 
   } catch (err: any) {
@@ -227,7 +227,7 @@ export const Remove = async (req: any, rep: any) => {
   try {
     let removeUrl:string = req.body?.delete;
     let preset:string = req.body?.upload_preset;
-    if(!!preset && !!removeUrl && removeUrl.includes(preset)){
+    if(!!preset && !!removeUrl && !removeUrl.includes(preset + '.s3.amazonaws.com')){
       removeUrl = removeUrl.replace(preset, preset + '.s3.amazonaws.com');
     }
     const key = getStorageKey(removeUrl);
