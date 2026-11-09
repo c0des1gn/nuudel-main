@@ -197,9 +197,9 @@ export const oauthPlugin = (
 
 oauthPlugin.FACEBOOK_CONFIGURATION = {
   authorizeHost: 'https://facebook.com',
-  authorizePath: '/v14.0/dialog/oauth',
+  authorizePath: '/v21.0/dialog/oauth',
   tokenHost: 'https://graph.facebook.com',
-  tokenPath: '/v14.0/oauth/access_token',
+  tokenPath: '/v21.0/oauth/access_token',
 };
 
 oauthPlugin.GOOGLE_CONFIGURATION = {

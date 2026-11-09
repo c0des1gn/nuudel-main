@@ -1,6 +1,7 @@
 # nuudel-main
 
 main module for nodejs of nuudel
+export NODE_AUTH_TOKEN=
 
 # git
 
